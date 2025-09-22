@@ -89,19 +89,16 @@
         </nav>
       </div>
       <div class="flex items-center gap-12">
-        <!-- Social links: thay link thật vào href -->
+        <!-- Social links -->
         <div class="flex items-center gap-8">
           <a class="btn" id="zaloBtn" href="https://zalo.me/0564313288" rel="noopener" data-phone="0564313288">Zalo</a>
           <a class="btn" id="tgBtn" href="https://t.me/" rel="noopener" data-tg-phone="0564313288" data-tg-username="">Telegram</a>
           <a class="btn" href="https://www.facebook.com/nam.acoustic.33" target="\_blank" rel="noreferrer">Facebook</a>
         </div>
         <a class="btn btn-primary pulse" 
-   href="https://3c725127e101.ngrok-free.app" 
-   target="_blank" 
-   rel="noopener noreferrer">
-  Dùng Javis bản Free
-</a>
-
+           href="https://3c725127e101.ngrok-free.app" 
+           target="_blank" 
+           rel="noopener noreferrer">Dùng Javis bản Free</a>
       </div>
     </div>
   </header>
@@ -119,7 +116,6 @@
       </div>
       <div class="card">
         <div class="aspect-video">
-          <!-- Thay thumbnail hoặc để trống -->
           <iframe src="https://www.youtube.com/embed/GBK3eQP_E3A?si=EzvPKglqzVbS3p_H" title="Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <p class="muted" style="margin-top:8px">* Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%</p>
@@ -352,127 +348,4 @@
   <!-- ===== Author ===== -->
   <section id="author" class="section">
     <div class="container card">
-      <p class="muted" style="margin:0">Mình học IT chuyên ngành software, ứng dụng AI và công nghệ vào giao dịch; không nhận làm đối tác backcom; không nhận làm KOL/KOC nhóm tín hiệu.</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">© <span id="y"></span> Javis. All rights reserved.</div>
-  </footer>
-  
-
-
-<style>
-.toast{
-  position:fixed;left:50%;transform:translateX(-50%);
-  bottom:16px;max-width:92vw;z-index:9999;
-  background:#0f172a;color:#fff;border-radius:12px;
-  padding:12px 14px;box-shadow:0 8px 24px rgba(15,23,42,.3);
-  display:none;align-items:center;gap:10px;font-size:14px
-}
-.toast.show{display:flex}
-.toast .close{margin-left:8px;background:transparent;border:0;color:#fff;cursor:pointer;font-weight:700}
-.toast a{color:#bfdbfe}
-</style>
-<div id="deepLinkToast" class="toast" role="status" aria-live="polite">
-  <span>Trình duyệt trong ứng dụng có thể chặn mở Zalo/Telegram. Hãy chọn <b>Mở trong trình duyệt</b> (Chrome/Safari) để kết nối app.</span>
-  <button class="close" aria-label="Đóng">×</button>
-</div>
-
-<script>
-(function () {
-  // ===== Helpers =====
-  function toE164(v) {
-    if (!v) return '';
-    var s = v.replace(/\D+/g, '');
-    if (!s) return '';
-    if (v.trim().startsWith('+')) return v.trim();
-    if (s.startsWith('0')) return '+84' + s.slice(1);
-    if (s.startsWith('84')) return '+' + s;
-    return '+' + s;
-  }
-  function isInAppBrowser() {
-    var ua = navigator.userAgent || '';
-    return /(FBAN|FBAV|Instagram|Line|Zalo|ZingApp|Messenger)/i.test(ua);
-  }
-  function setupDeepLink(btnId, builder) {
-    var btn = document.getElementById(btnId);
-    if (!btn) return;
-    var ua = navigator.userAgent || '';
-    var isAndroid = /Android/i.test(ua);
-    var isIOS = /iPhone|iPad|iPod/i.test(ua);
-    var isMobile = isAndroid || isIOS;
-
-    var links = builder({ isAndroid: isAndroid, isIOS: isIOS });
-    btn.setAttribute('href', links.web);
-    btn.removeAttribute('target'); // avoid opening new tab
-
-    if (!isMobile) return;
-
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      var t = setTimeout(function () { window.location.href = links.web; }, 1200);
-
-      function cancel() {
-        if (t) { clearTimeout(t); t = null; }
-      }
-      document.addEventListener('visibilitychange', function onVis() {
-        if (document.visibilityState === 'hidden') { cancel(); }
-      }, { once: true });
-      window.addEventListener('pagehide', cancel, { once: true });
-
-      // prefer intent on Android, scheme on iOS
-      window.location.href = links.app;
-    }, { passive: false });
-  }
-
-  // ===== Telegram =====
-  setupDeepLink('tgBtn', function (ctx) {
-    var el = document.getElementById('tgBtn');
-    var username = (el.dataset.tgUsername || '').trim();
-    var phoneE164 = toE164((el.dataset.tgPhone || '').trim());
-    var digits = phoneE164.replace(/^\+/, '');
-
-    // Build links
-    var web = username ? ('https://t.me/' + encodeURIComponent(username))
-                       : (digits ? ('https://t.me/+' + digits) : 'https://t.me/');
-    var appScheme = username ? ('tg://resolve?domain=' + encodeURIComponent(username))
-                             : ('tg://resolve?phone=' + encodeURIComponent(phoneE164));
-    var appIntent = username
-      ? ('intent://resolve?domain=' + encodeURIComponent(username) +
-         '#Intent;scheme=tg;package=org.telegram.messenger;S.browser_fallback_url=' + encodeURIComponent(web) + ';end')
-      : ('intent://resolve?phone=' + encodeURIComponent(phoneE164) +
-         '#Intent;scheme=tg;package=org.telegram.messenger;S.browser_fallback_url=' + encodeURIComponent(web) + ';end');
-
-    // If both empty, keep web only
-    var app = ctx.isAndroid ? appIntent : appScheme;
-    return { app: app, web: web };
-  });
-
-  // ===== Zalo =====
-  setupDeepLink('zaloBtn', function (ctx) {
-    var el = document.getElementById('zaloBtn');
-    var phoneE164 = toE164((el.dataset.phone || '').trim());
-    var digits = phoneE164.replace(/^\+/, '');
-
-    var web = digits ? ('https://zalo.me/' + digits) : 'https://zalo.me/';
-    var appScheme = 'zalo://conversation?phone=' + encodeURIComponent(phoneE164);
-    var appIntent = 'intent://conversation?phone=' + encodeURIComponent(phoneE164) +
-        '#Intent;scheme=zalo;package=com.zing.zalo;S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
-
-    var app = ctx.isAndroid ? appIntent : appScheme;
-    return { app: app, web: web };
-  });
-
-  // ===== In-app browser notice =====
-  var toast = document.getElementById('deepLinkToast');
-  if (toast && isInAppBrowser()) {
-    toast.classList.add('show');
-    var closeBtn = toast.querySelector('.close');
-    if (closeBtn) closeBtn.addEventListener('click', function(){ toast.classList.remove('show'); });
-  }
-})();
-</script>
-
-</body>
-</html>
+      <p class="muted" style="margin:0">Mình học IT chuyên ngành software, ứng dụng AI và công nghệ vào giao dịch; không nhận làm đối tác backcom; không nhận làm
