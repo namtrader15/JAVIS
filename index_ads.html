@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Javis – Trợ lý tín hiệu & Auto Trading</title>
+  <style>
+    /* ====== Javis Simple Theme (no build, pure CSS) ====== */
+    :root{
+      --blue:#2563eb; /* brand */
+      --text:#0f172a; /* slate-900 */
+      --muted:#64748b; /* slate-500 */
+      --bg1:#ffffff; --bg2:#f8fafc; /* gradient */
+      --border:#e5e7eb;
+      --radius:16px;
+    }
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;color:var(--text);background:linear-gradient(var(--bg1),var(--bg2))}
+    .container{max-width:1120px;margin:0 auto;padding:0 16px}
+    .flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}
+    .section{padding:48px 0}
+    .muted{color:var(--muted)}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 4px 12px rgba(15,23,42,.06)}
+    .badge{display:inline-block;background:#eef2ff;color:#1e40af;border-radius:999px;padding:4px 10px;font-size:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:14px;padding:10px 14px;text-decoration:none;font-weight:600}
+    .btn:hover{background:#f8fafc}
+    .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn-primary:hover{filter:brightness(0.95)}
+    @keyframes cta-pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.4)}50%{box-shadow:0 0 0 12px rgba(37,99,235,0)}}
+    .pulse{animation:cta-pulse 2.2s infinite}
+    .grid{display:grid;gap:16px}
+    .grid-2{grid-template-columns:1fr}
+    .grid-3{grid-template-columns:1fr}
+    @media(min-width:768px){.grid-2{grid-template-columns:repeat(2,1fr)} .grid-3{grid-template-columns:repeat(3,1fr)}}
+    .hero-title{font-size:28px;font-weight:800;line-height:1.1}
+    @media(min-width:768px){.hero-title{font-size:42px}}
+    .aspect-video{position:relative;width:100%;padding-bottom:56.25%;background:#f1f5f9;border-radius:12px;overflow:hidden}
+    .aspect-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px}
+    .price .amount{font-size:28px;font-weight:800}
+    .price .period{color:var(--muted);font-weight:500}
+    .price.hot{outline:2px solid rgba(37,99,235,.35);border-color:var(--blue)}
+    header{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border);z-index:50}
+    .footer{border-top:1px solid var(--border);padding:24px 0;color:var(--muted);font-size:14px}
+    ul.clean{padding-left:18px;margin:8px 0}
+  
+    /* ====== Mobile enhancements & accessibility ====== */
+    .btn{min-height:44px} /* better tap target */
+    iframe, video {max-width:100%; height:auto}
+    img{max-width:100%; height:auto}
+    @media (max-width: 640px){
+      .container{padding:0 12px}
+      .section{padding:32px 0}
+      .hero-title{font-size:24px}
+      .card{padding:16px}
+      .price .amount{font-size:24px}
+      .btn{width:100%}
+      /* stack flex rows to columns on small screens */
+      .flex.items-center.justify-between{flex-direction:column; align-items:flex-start; gap:12px}
+      header .container{flex-wrap:wrap; gap:8px}
+    }
+
+    /* ====== TradingView section emphasis (bigger) ====== */
+    #tradingview .card{padding:32px; border-width:2px}
+    #tradingview p{font-size:18px; font-weight:600}
+    #tradingview .btn{padding:12px 18px; font-size:16px}
+
+  </style>
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="container flex items-center justify-between" style="padding:12px 16px">
+      <div class="flex items-center gap-12">
+        <div class="flex items-center gap-8">
+          <div style="width:36px;height:36px;border-radius:12px;background:#000;color:#fff;display:grid;place-items:center;font-weight:700">J</div>
+          <div>
+            <div style="font-weight:700;font-size:14px">Javis</div>
+            <div class="muted" style="font-size:12px">AI Trading Assistant</div>
+          </div>
+        </div>
+        <nav class="muted" style="display:none;gap:16px" id="nav-desktop">
+          <a href="#assistant">Javis trợ lý</a>
+          <a href="#xau">XAU m1</a>
+          <a href="#bitcoin">Javis Bitcoin</a>
+          <a href="#pricing">Bảng giá</a>
+          <a href="#promo">Khuyến mãi</a>
+          <a href="#payment">Thanh toán</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-12">
+        <!-- Social links: thay link thật vào href -->
+        <div class="flex items-center gap-8">
+          <a class="btn" href="https://zalo.me/0564313288" target="\_blank" rel="noreferrer">Zalo</a>
+          <a class="btn" href="0564313288" target="\_blank" rel="noreferrer">Telegram</a>
+          <a class="btn" href="https://www.facebook.com/nam.acoustic.33" target="\_blank" rel="noreferrer">Facebook</a>
+        </div>
+        <a class="btn btn-primary pulse" href="#free">Dùng Javis bản Free</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="section">
+    <div class="container grid grid-2 gap-16">
+      <div>
+        <h1 class="hero-title">Cửa hàng Javis — Trợ lý tín hiệu & Auto Trading</h1>
+        <p class="muted" style="font-size:18px;margin-top:8px">Javis trợ lý đưa ra tín hiệu và copy lệnh lên MT5; các phiên bản đặc thù gồm XAU scalping m1 và Javis Bitcoin h1.</p>
+        <div class="flex items-center gap-12" style="margin-top:16px">
+          <a class="btn btn-primary" href="#pricing">Xem bảng giá</a>
+          <a class="btn" href="#assistant">Tìm hiểu Javis trợ lý</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="aspect-video">
+          <!-- Thay thumbnail hoặc để trống -->
+          <iframe src="https://www.youtube.com/embed/GBK3eQP_E3A?si=EzvPKglqzVbS3p_H" title="Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <p class="muted" style="margin-top:8px">* Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Assistant ===== -->
+  <section id="assistant" class="section">
+    <div class="container">
+      <h2 style="font-size:28px;font-weight:800">Javis trợ lý</h2>
+      <p class="muted">Phiên bản trợ lý đưa ra tín hiệu + copy lệnh lên MT5 (có 7 version, giá như bảng dưới).</p>
+      <div class="grid grid-2 gap-16" style="margin-top:16px">
+        <div class="card">
+          <h3 style="margin:0 0 8px 0">Hướng dẫn sử dụng và giới thiệu Javis trợ lý</h3>
+          <div class="aspect-video">
+            <iframe src="https://www.youtube.com/embed/U9faUimGzTM?si=kdsHSmfL7wHlca98" title="Hướng dẫn sử dụng và giới thiệu Javis trợ lý" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <img src="img/Javis_troly.png" alt="Javis trợ lý – ảnh minh hoạ" loading="lazy">
+        </div>
+        <div class="card">
+          <ul class="clean muted">
+            <li>Chọn loại tài sản muốn phân tích → xem tín hiệu AI: buy/sell/wait.</li>
+            <li>Nếu hợp lý, chọn copy lệnh vào MT5 → nhập mức rủi ro mong muốn (USD).</li>
+            <li>AI tự tính lot và ghi lệnh vào MT5.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== XAU m1 ===== -->
+  <section id="xau" class="section">
+    <div class="container">
+      <div class="card flex items-center justify-between">
+        <div>
+          <h3 style="margin:0">Javis XAU scalping m1</h3>
+          <p class="muted" style="margin:6px 0 0 0">Phiên bản này chưa có backview.</p>
+        </div>
+        <span class="badge">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Bitcoin ===== -->
+  <section id="bitcoin" class="section">
+    <div class="container grid grid-2 gap-16">
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Hướng dẫn sử dụng và giới thiệu Javis Bitcoin</h3>
+        <div class="aspect-video">
+          <iframe src="https://www.youtube.com/embed/ZF_viy_wJ6k?si=Xpuloa0Rb1RTkqwP" title="Hướng dẫn sử dụng và giới thiệu Javis Bitcoin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <img src="img/javisbtc.png" alt="Javis BTC auto – ảnh minh hoạ" loading="lazy">
+      </div>
+      <div class="grid" style="gap:12px">
+        <div class="card price">
+          <div class="amount">150$</div><div class="period">/ 15 ngày (dùng thử)</div>
+          <ul class="clean muted" style="margin-top:6px">
+            <li><strong>Tặng kèm:</strong> Trợ lý Javis Pro 15 ngày + TradingView Premium 1 tháng</li>
+          </ul>
+        </div>
+        <div class="card price">
+          <div class="amount">200$</div><div class="period">/ tháng</div>
+          <ul class="clean muted" style="margin-top:6px">
+            <li><strong>Tặng kèm:</strong> Trợ lý Javis Pro 1 tháng + TradingView Premium 3 tháng</li>
+          </ul>
+        </div>
+        <div class="card price">
+          <div class="amount">500$</div><div class="period">/ 12 tháng</div>
+          <ul class="clean muted" style="margin-top:6px">
+            <li><strong>Tặng kèm:</strong> Trợ lý Javis Pro 6 tháng + TradingView Premium 1 năm</li>
+          </ul>
+        </div>
+        <div class="card price">
+          <div class="amount">1000$</div><div class="period">/ vĩnh viễn</div>
+          <ul class="clean muted" style="margin-top:6px">
+            <li><strong>Tặng kèm:</strong> Trợ lý Javis Pro 1 năm + TradingView Premium 2 năm</li>
+          </ul>
+        </div>
+
+        <p class="muted" style="margin:8px 0 0 0">Có Passview the5er funded. Hỗ trợ MT5 và giao dịch Binance USD(M) Futures.</p>
+
+        <div class="flex items-center gap-12" style="margin-top:8px">
+          <a class="btn" href="passview.html" target="\_blank" rel="noreferrer">Xem Lịch Sử (PassView)</a>
+          <a class="btn btn-primary" href="#payment">Liên hệ sử dụng</a>
+        </div>
+
+        <p class="muted" style="margin-top:8px"><strong>Ưu đãi áp dụng:</strong> 100 KH đầu tiên, hoặc đăng ký từ ngày 23/9–3/10.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TradingView ===== -->
+  <section id="tradingview" class="section">
+    <div class="container">
+      <div class="card flex items-center justify-between">
+        <p class="muted" style="margin:0">Tài khoản TradingView premium giá rẻ (139k).</p>
+        <a class="btn btn-primary" href="tradingviewprice.html" target="\_blank" rel="noreferrer">Mua ngay</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA Free ===== -->
+  <section id="free" class="section">
+    <div class="container">
+      <div class="card flex items-center justify-between">
+        <p style="margin:0">Dùng thử Javis bản Free (0 USDT/tháng).</p>
+        <a class="btn btn-primary pulse" href="#pricing">Chọn gói phù hợp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Pricing 7 versions ===== -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2 style="font-size:28px;font-weight:800;margin:0 0 8px 0">Bảng giá các phiên bản Javis</h2>
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Javis Lite</div>
+          <h3>Free</h3>
+          <div class="amount">0 USDT <span class="period">/ tháng</span></div>
+          <ul class="clean muted"><li>3 lời khuyên/ngày</li><li>Cặp: XAUUSD, BTCUSDT</li></ul>
+          <a class="btn btn-primary" href="#free" style="margin-top:8px">Dùng miễn phí</a>
+        </div>
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Javis Core</div>
+          <h3>Basic — Dùng thử 15 ngày</h3>
+          <div class="amount">14 USDT <span class="period">/ 15 ngày</span></div>
+          <span class="badge">Trial 15 ngày</span>
+          <ul class="clean muted"><li>20 lời khuyên/ngày</li><li>Cặp: Gói Free + 1 cặp tuỳ yêu cầu</li></ul>
+          <a class="btn" href="#payment" style="margin-top:8px">Mua gói Trial</a>
+        </div>
+        <div class="card price hot">
+          <div class="muted" style="font-size:12px">MODEL: Javis Core</div>
+          <h3>Starter+</h3>
+          <div class="amount">20 USDT <span class="period">/ tháng</span></div>
+          <span class="badge">Hoàn 50% khi nâng cấp</span>
+          <ul class="clean muted"><li>55 lời khuyên/ngày</li><li>Cặp: Free + 2 cặp tuỳ yêu cầu</li></ul>
+          <a class="btn btn-primary" href="#payment" style="margin-top:8px">Chọn Starter+</a>
+        </div>
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Javis Max</div>
+          <h3>Pro</h3>
+          <div class="amount">40 USDT <span class="period">/ tháng</span></div>
+          <span class="badge">Tặng 1 tháng khi mua 2</span>
+          <ul class="clean muted"><li>150 lời khuyên/ngày</li><li>Cặp: Basic + 5 cặp tuỳ yêu cầu</li></ul>
+          <a class="btn" href="#payment" style="margin-top:8px">Chọn Pro</a>
+        </div>
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Javis Quant</div>
+          <h3>Enterprise</h3>
+          <div class="amount">70 USDT <span class="period">/ tháng</span></div>
+          <span class="badge">Model tốt nhất</span>
+          <ul class="clean muted"><li>Không giới hạn lời khuyên</li><li>Cặp: Tất cả cặp chính Forex + toàn bộ altcoin Binance</li></ul>
+          <a class="btn" href="#payment" style="margin-top:8px">Chọn Enterprise</a>
+        </div>
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Javis Quant</div>
+          <h3>Quant — Trọn đời</h3>
+          <div class="amount">Liên hệ <span class="period">/ trọn đời</span></div>
+          <span class="badge">Sử dụng + bảo hành trọn đời</span>
+          <ul class="clean muted"><li>Dùng & bảo hành trọn đời</li><li>Liên hệ để biết thêm</li></ul>
+          <a class="btn" href="#payment" style="margin-top:8px">Liên hệ</a>
+        </div>
+        <div class="card price">
+          <div class="muted" style="font-size:12px">MODEL: Tuỳ chỉnh</div>
+          <h3>Gói tuỳ chỉnh</h3>
+          <div class="amount">Liên hệ <span class="period">/ tuỳ chỉnh</span></div>
+          <span class="badge">Tuỳ chỉnh model, tín hiệu, thời gian</span>
+          <ul class="clean muted"><li>Cá nhân hoá theo nhu cầu</li><li>Liên hệ để biết thêm</li></ul>
+          <a class="btn" href="#payment" style="margin-top:8px">Liên hệ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Promo ===== -->
+  <section id="promo" class="section">
+    <div class="container card">
+      <h3 style="margin:0 0 12px 0">Khuyến mãi</h3>
+      <p>Áp dụng cho <strong>100 KH đầu tiên</strong> hoặc <strong>đăng ký từ ngày 23/9–3/10</strong>:</p>
+      <div class="grid grid-2">
+        <div>
+          <strong>Đối với Phiên bản trợ lý</strong>
+          <ul class="clean muted">
+            <li>Giảm 10% cho lần mua dùng thử đầu tiên</li>
+          </ul>
+        </div>
+        <div>
+          <strong>Đối với Phiên bản Javis Bitcoin</strong>
+          <ul class="clean muted">
+            <li>Ưu đãi theo từng gói như mục <a href="#bitcoin">Javis Bitcoin</a> (tặng kèm Javis Pro &amp; TradingView Premium).</li>
+            <li>Chi tiết quà tặng xem ngay bên cạnh từng gói giá ở trên.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Payment ===== -->
+  <section id="payment" class="section">
+    <div class="container card">
+      <h3 style="margin:0 0 8px 0">Thanh toán</h3>
+      <p class="muted">Liên hệ Zalo hoặc Telegram, hình thức banking hoặc USDT P2P. Sau khi thanh toán xong, mình hoặc đội ngũ sẽ hỗ trợ cài qua UltraView. Bảo hành xuyên suốt quá trình sử dụng nếu có lỗi phát sinh.</p>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="section">
+    <div class="container grid grid-2 gap-16">
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Cách sử dụng trợ lý Javis</h3>
+        <ul class="clean muted">
+          <li>Chọn loại tài sản muốn phân tích → xem tín hiệu AI là buy/sell/wait.</li>
+          <li>Nếu hợp lý, chọn copy lệnh vào MT5 → nhập mức rủi ro mong muốn (USD).</li>
+          <li>AI tự tính lot và ghi lệnh vào MT5.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Cách sử dụng Javis Bitcoin</h3>
+        <ul class="clean muted">
+          <li>Bật lên rồi chạy 24/24 hoặc chọn đầu giờ chiều (Thứ 2–Thứ 6).</li>
+          <li>Tối Thứ 6 – tối Chủ nhật khuyến nghị tắt AI để tối ưu rủi ro.</li>
+          <li>Hỗ trợ MT5 và giao dịch Binance với tài khoản USD(M) Futures.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Author ===== -->
+  <section id="author" class="section">
+    <div class="container card">
+      <p class="muted" style="margin:0">Mình học IT chuyên ngành software, ứng dụng AI và công nghệ vào giao dịch; không nhận làm đối tác backcom; không nhận làm KOL/KOC nhóm tín hiệu.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">© <span id="y"></span> Javis. All rights reserved.</div>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>

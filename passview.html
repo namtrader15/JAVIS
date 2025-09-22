@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Javis Bitcoin Auto Livetrade — Passview</title>
+  <meta name="description" content="Trang giới thiệu lịch sử giao dịch/statement forex của bạn dưới dạng thư viện ảnh có lọc theo tài khoản. HTML + CSS thuần, tối ưu di động." />
+  <style>
+    /* ============================
+       Thiết kế tổng thể (HTML + CSS thuần)
+       ============================ */
+    :root {
+      --bg: #0b1020;           /* nền tối cao cấp */
+      --bg-2: #0d1326;
+      --card: #111833;         /* nền thẻ */
+      --text: #e7edf7;         /* chữ chính */
+      --muted: #9aa8c7;        /* chữ phụ */
+      --accent: #6ea8ff;       /* điểm nhấn */
+      --accent-2: #22d3ee;     /* điểm nhấn phụ */
+      --ring: 0 0 0 1.5px #3450ff, 0 0 0 6px rgba(52,80,255,.12);
+      --radius-lg: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.25);
+      --grid-gap: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; color: var(--text); background: radial-gradient(1200px 800px at 10% 10%, #101936, transparent 60%),
+                                          radial-gradient(900px 700px at 90% 0%, rgba(34,211,238,.10), transparent 60%),
+                                          var(--bg);
+      font: 500 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      letter-spacing: .1px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 64px; }
+
+    /* ======= Header ======= */
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .logo { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(135deg, #2b3a91, #00a3ff);
+            box-shadow: 0 6px 20px rgba(0,163,255,.35); font-weight: 800; }
+    .brand span { font-weight: 700; letter-spacing: .3px; }
+    .cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px; background: linear-gradient(180deg, #1a2250, #12193a);
+           border: 1px solid rgba(255,255,255,.08); color: var(--text); text-decoration: none; box-shadow: var(--shadow); }
+    .cta:hover { outline: var(--ring); }
+
+    /* ======= Hero ======= */
+    .hero { margin: 18px 0 26px; display: grid; gap: 14px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); background: rgba(255,255,255,.05); padding: 6px 10px; border: 1px solid rgba(255,255,255,.08);
+               width: fit-content; border-radius: 999px; }
+    .eyebrow .dot { width: 8px; height: 8px; border-radius: 999px; background: conic-gradient(from 0deg, #00e3ff, #628afc); box-shadow: 0 0 0 3px rgba(98,138,252,.2); }
+    .title { font-size: clamp(28px, 4.6vw, 46px); line-height: 1.15; margin: 0; font-weight: 800; }
+    .title .grad { background: linear-gradient(92deg, #9ad8ff 0%, #22d3ee 45%, #b3b8ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sub { color: var(--muted); max-width: 820px; }
+
+    /* ======= Trust badges ======= */
+    .badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 18px 0 8px; }
+    .badge { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08);
+             border-radius: var(--radius-sm); padding: 12px 14px; display: grid; gap: 6px; }
+    .badge strong { font-size: 13.5px; letter-spacing: .2px; }
+    .badge span { font-size: 12.5px; color: var(--muted); }
+
+    /* ======= Bộ lọc tài khoản (CSS-only tabs) ======= */
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 12px; }
+    .filters input { display: none; }
+    .filters label { user-select: none; cursor: pointer; padding: 8px 12px; border-radius: 999px; font-weight: 600; font-size: 14px;
+                     color: var(--muted); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(6px); }
+    .filters input:checked + label { color: #0b1020; background: linear-gradient(180deg, #79c7ff, #22d3ee); border-color: transparent; box-shadow: 0 6px 16px rgba(121,199,255,.35); }
+
+    /* ======= Gallery ======= */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--grid-gap); }
+    .card { position: relative; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08);
+            border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: transform .25s ease, box-shadow .25s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+    .thumb { aspect-ratio: 3/4; display: block; width: 100%; object-fit: cover; }
+    .meta { display: grid; gap: 6px; padding: 12px 14px; border-top: 1px solid rgba(255,255,255,.06); background: linear-gradient(180deg, rgba(13,19,38,.7), rgba(13,19,38,.9)); }
+    .meta .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .meta .tag { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: rgba(34,211,238,.15); border: 1px solid rgba(34,211,238,.35); color: #b5f1ff; }
+    .meta .date { font-size: 12px; color: var(--muted); }
+    .meta .caption { font-size: 13.5px; color: #cfe7ff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .meta .small { font-size: 12px; color: var(--muted); }
+
+    /* ======= CSS-only Lightbox (click ảnh để phóng to) ======= */
+    .lightbox { position: fixed; inset: 0; display: none; background: rgba(4,8,20,.85); backdrop-filter: blur(6px); z-index: 1000; padding: 24px; }
+    .lightbox:target { display: grid; place-items: center; }
+    .lightbox .inner { max-width: min(1100px, 92vw); max-height: 86vh; border-radius: 14px; overflow: hidden; background: #0c1328; border: 1px solid rgba(255,255,255,.12); box-shadow: var(--shadow); }
+    .lightbox img { display: block; width: 100%; height: auto; }
+    .close { position: fixed; top: 16px; right: 16px; font-size: 26px; width: 42px; height: 42px; display: grid; place-items: center; text-decoration: none; color: var(--text);
+             background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 10px; }
+    .close:hover { outline: var(--ring); }
+
+    /* ======= Hiển thị theo bộ lọc (không cần JS) ======= */
+    /* Mặc định ẩn tất cả, chỉ hiện khi thỏa điều kiện filter */
+    .cards [data-account] { display: none; }
+    .filters:has(#filter-all:checked) ~ .cards [data-account] { display: block; }
+    .filters:has(#filter-5k:checked) ~ .cards [data-account="5k Funded"] { display: block; }
+    .filters:has(#filter-10k:checked) ~ .cards [data-account="10k Funded"] { display: block; }
+   
+
+    /* ======= Footer / Disclaimer ======= */
+    .foot { margin-top: 36px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 13px; }
+
+    @media (hover: none) {
+      .card:hover { transform: none; }
+    }
+  
+    /* ============================
+       Mobile support enhancements
+       (non-destructive overrides)
+       ============================ */
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-right: env(safe-area-inset-right);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+    }
+    /* Better safe-area padding & bottom padding for gesture bars */
+    .container {
+      padding-left: max(16px, var(--safe-left));
+      padding-right: max(16px, var(--safe-right));
+      padding-bottom: calc(64px + var(--safe-bottom));
+    }
+
+    /* Sticky header with subtle blur for small screens */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 12px 8px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(11,16,32,.92), rgba(11,16,32,.72));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* Scrollable, sticky filter chips on mobile */
+    .filters {
+      position: sticky;
+      top: calc(56px + var(--safe-top));
+      z-index: 90;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+      scroll-snap-type: x mandatory;
+    }
+    .filters label {
+      white-space: nowrap;
+      scroll-snap-align: start;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filters input { display: none; }
+
+    /* Grid refinements across breakpoints */
+    @media (max-width: 480px) {
+      .cards { grid-template-columns: 1fr; gap: 14px; }
+    }
+    @media (min-width: 481px) and (max-width: 768px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Better tap targets and focus-visible for accessibility */
+    a, .cta, .filters label, .close {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    :focus-visible { outline: var(--ring); outline-offset: 2px; }
+
+    /* Lighter hover effects on touch devices already handled; also reduce-motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* Lightbox: improve mobile fit + larger close hitbox */
+    .lightbox .inner {
+      max-width: min(1100px, 96vw);
+      max-height: calc(100svh - 32px - var(--safe-top) - var(--safe-bottom));
+    }
+    .lightbox img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .close {
+      width: 48px; height: 48px; line-height: 48px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.12);
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="#">
+        <div class="logo">J</div>
+        <span>Javis Bitcoin Auto Livetrade </span>
+      </a>
+      <a class="cta" href="https://zalo.me/0564313288">Liên hệ</a>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="dot"></span><span>Dữ liệu minh bạch được cung cấp bởi bên thứ 3</span></div>
+      <h1 class="title">Lịch sử giao dịch <span class="grad">Funding Fund</span> — The5er </h1>
+      <p class="sub">Tất cả lịch sử giao dịch được đảm bảo lấy từ tài khoản tiền thật, nói không với passview demo, backtest</p>
+    </section>
+
+    <!--
+      HƯỚNG DẪN THÊM ẢNH:
+      1) Đặt file ảnh trong các thư mục: img/<idaccount>-5k Funded/*.png (hoặc 10k, 25k ...)
+         LƯU Ý: Nếu thư mục có khoảng trắng ("5k Funded"), URL cần encode khoảng trắng thành %20.
+      2) Sao chép một <article class="card"> dưới đây, đổi src, alt và text meta tương ứng.
+      3) Cập nhật data-account="5k Funded" (hoặc 10k/25k) để ảnh lọc đúng nhóm.
+      4) Muốn thêm nhóm mới (ví dụ 50k): thêm input + label và một rule CSS tương tự như 25k.
+    -->
+
+    <!-- Điểm neo để đóng lightbox -->
+    <div id="gallery"></div>
+
+    <!-- Bộ lọc bằng radio -->
+    <div class="filters">
+      <input type="radio" name="acct" id="filter-all" checked>
+      <label for="filter-all">Tất cả</label>
+
+      <input type="radio" name="acct" id="filter-5k">
+      <label for="filter-5k">5.000$ Funded Account</label>
+
+      <input type="radio" name="acct" id="filter-10k">
+      <label for="filter-10k">10.000$ Funded Account</label>
+    </div>
+
+    <!-- Thư viện ảnh -->
+    <section class="cards">
+      <!-- 24407647 — 5k Funded (4 ảnh) -->
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24407647-1">
+          <img class="thumb" src="img/24407647-5k%20Funded/1.png" alt="Account 24407647 — 5k Funded — Ảnh 1" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24407647 • Ảnh 1/4</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24407647-2">
+          <img class="thumb" src="img/24407647-5k%20Funded/2.png" alt="Account 24407647 — 5k Funded — Ảnh 2" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24407647 • Ảnh 2/4</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24407647-3">
+          <img class="thumb" src="img/24407647-5k%20Funded/3.png" alt="Account 24407647 — 5k Funded — Ảnh 3" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24407647 • Ảnh 3/4</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24407647-4">
+          <img class="thumb" src="img/24407647-5k%20Funded/4.png" alt="Account 24407647 — 5k Funded — Ảnh 4" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24407647 • Ảnh 4/4</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+
+      <!-- 24436768 — 5k Funded (6 ảnh) -->
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-1">
+          <img class="thumb" src="img/24436768-5k%20Funded/1.png" alt="Account 24436768 — 5k Funded — Ảnh 1" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 1/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-2">
+          <img class="thumb" src="img/24436768-5k%20Funded/2.png" alt="Account 24436768 — 5k Funded — Ảnh 2" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 2/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-3">
+          <img class="thumb" src="img/24436768-5k%20Funded/3.png" alt="Account 24436768 — 5k Funded — Ảnh 3" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 3/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-4">
+          <img class="thumb" src="img/24436768-5k%20Funded/4.png" alt="Account 24436768 — 5k Funded — Ảnh 4" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 4/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-5">
+          <img class="thumb" src="img/24436768-5k%20Funded/5.png" alt="Account 24436768 — 5k Funded — Ảnh 5" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 5/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="5k Funded">
+        <a href="#acc-24436768-6">
+          <img class="thumb" src="img/24436768-5k%20Funded/6.png" alt="Account 24436768 — 5k Funded — Ảnh 6" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">5k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24436768 • Ảnh 6/6</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+
+      <!-- 24528903 — 10k Funded (9 ảnh) -->
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-1">
+          <img class="thumb" src="img/24528903-10k%20Funded/1.png" alt="Account 24528903 — 10k Funded — Ảnh 1" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 1/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-2">
+          <img class="thumb" src="img/24528903-10k%20Funded/2.png" alt="Account 24528903 — 10k Funded — Ảnh 2" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 2/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-3">
+          <img class="thumb" src="img/24528903-10k%20Funded/3.png" alt="Account 24528903 — 10k Funded — Ảnh 3" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 3/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-4">
+          <img class="thumb" src="img/24528903-10k%20Funded/4.png" alt="Account 24528903 — 10k Funded — Ảnh 4" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 4/9</div>
+          <div class="small">Nguồn: The5ers-HUBc</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-5">
+          <img class="thumb" src="img/24528903-10k%20Funded/5.png" alt="Account 24528903 — 10k Funded — Ảnh 5" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 5/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-6">
+          <img class="thumb" src="img/24528903-10k%20Funded/6.png" alt="Account 24528903 — 10k Funded — Ảnh 6" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 6/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-7">
+          <img class="thumb" src="img/24528903-10k%20Funded/7.png" alt="Account 24528903 — 10k Funded — Ảnh 7" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 7/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-8">
+          <img class="thumb" src="img/24528903-10k%20Funded/8.png" alt="Account 24528903 — 10k Funded — Ảnh 8" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 8/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+      <article class="card" data-account="10k Funded">
+        <a href="#acc-24528903-9">
+          <img class="thumb" src="img/24528903-10k%20Funded/9.png" alt="Account 24528903 — 10k Funded — Ảnh 9" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">10k Funded</span><span class="date">—</span></div>
+          <div class="caption">Account #24528903 • Ảnh 9/9</div>
+          <div class="small">Nguồn: The5ers-HUB</div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Lightbox items (mỗi ảnh một target) -->
+    <div class="lightbox" id="acc-24407647-1"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/1.png" alt="Account 24407647 — 5k Funded — Ảnh 1"></div></div>
+    <div class="lightbox" id="acc-24407647-2"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/2.png" alt="Account 24407647 — 5k Funded — Ảnh 2"></div></div>
+    <div class="lightbox" id="acc-24407647-3"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/3.png" alt="Account 24407647 — 5k Funded — Ảnh 3"></div></div>
+    <div class="lightbox" id="acc-24407647-4"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/4.png" alt="Account 24407647 — 5k Funded — Ảnh 4"></div></div>
+
+    <div class="lightbox" id="acc-24436768-1"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/1.png" alt="Account 24436768 — 5k Funded — Ảnh 1"></div></div>
+    <div class="lightbox" id="acc-24436768-2"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/2.png" alt="Account 24436768 — 5k Funded — Ảnh 2"></div></div>
+    <div class="lightbox" id="acc-24436768-3"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/3.png" alt="Account 24436768 — 5k Funded — Ảnh 3"></div></div>
+    <div class="lightbox" id="acc-24436768-4"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/4.png" alt="Account 24436768 — 5k Funded — Ảnh 4"></div></div>
+    <div class="lightbox" id="acc-24436768-5"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/5.png" alt="Account 24436768 — 5k Funded — Ảnh 5"></div></div>
+    <div class="lightbox" id="acc-24436768-6"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24436768-5k%20Funded/6.png" alt="Account 24436768 — 5k Funded — Ảnh 6"></div></div>
+
+    <div class="lightbox" id="acc-24528903-1"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/1.png" alt="Account 24528903 — 10k Funded — Ảnh 1"></div></div>
+    <div class="lightbox" id="acc-24528903-2"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/2.png" alt="Account 24528903 — 10k Funded — Ảnh 2"></div></div>
+    <div class="lightbox" id="acc-24528903-3"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/3.png" alt="Account 24528903 — 10k Funded — Ảnh 3"></div></div>
+    <div class="lightbox" id="acc-24528903-4"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/4.png" alt="Account 24528903 — 10k Funded — Ảnh 4"></div></div>
+    <div class="lightbox" id="acc-24528903-5"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/5.png" alt="Account 24528903 — 10k Funded — Ảnh 5"></div></div>
+    <div class="lightbox" id="acc-24528903-6"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/6.png" alt="Account 24528903 — 10k Funded — Ảnh 6"></div></div>
+    <div class="lightbox" id="acc-24528903-7"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/7.png" alt="Account 24528903 — 10k Funded — Ảnh 7"></div></div>
+    <div class="lightbox" id="acc-24528903-8"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/8.png" alt="Account 24528903 — 10k Funded — Ảnh 8"></div></div>
+    <div class="lightbox" id="acc-24528903-9"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24528903-10k%20Funded/9.png" alt="Account 24528903 — 10k Funded — Ảnh 9"></div></div>
+
+
+    <footer id="contact" class="foot">
+      <p><strong>Disclaimer:</strong> Giao dịch ngoại hối tiềm ẩn rủi ro cao. Luôn cẩn trọng khi đầu tư.</p>
+    </footer>
+  </div>
+</body>
+</html>

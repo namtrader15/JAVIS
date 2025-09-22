@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" / />
+  <title>TradingView Premium • Ưu đãi đối tác</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    html,body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;}
+    .glass{backdrop-filter: blur(8px);}
+  
+    /* ============================
+       Mobile support enhancements
+       (non-destructive overrides)
+       ============================ */
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-right: env(safe-area-inset-right);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+      --ring: 2px solid rgba(99,102,241,.55);
+    }
+    html, body { 
+      height: auto; 
+      min-height: 100%;
+      padding-bottom: calc(56px + var(--safe-bottom));
+    }
+    /* Sticky header with subtle blur for small screens */
+    @media (max-width: 640px) {
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        margin-bottom: 8px;
+        padding-top: max(10px, calc(10px + var(--safe-top)));
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        background: linear-gradient(180deg, rgba(2,6,23,.92), rgba(2,6,23,.68));
+        border-bottom: 1px solid rgba(255,255,255,.06);
+      }
+    }
+    /* Inputs: easier tap + remove number spinners */
+    input[type="number"] {
+      font-size: 16px; /* avoid iOS zoom */
+      padding: 10px 12px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+    /* Better tap targets and focus-visible for accessibility */
+    a, button, [role="button"] {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    :focus-visible { outline: var(--ring); outline-offset: 2px; border-radius: 10px; }
+    /* Make CTAs full-width on very small devices */
+    @media (max-width: 480px) {
+      .rounded-2xl a.inline-flex { width: 100%; justify-content: center; }
+    }
+    /* Light motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+    /* Ensure containers respect safe-area horizontally when needed */
+    .mx-auto { padding-left: max(1rem, var(--safe-left)); padding-right: max(1rem, var(--safe-right)); }
+
+  </style>
+</head>
+<body class="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 min-h-screen">
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+    <div class="flex items-center gap-3">
+      <div class="size-10 rounded-xl bg-indigo-500/20 flex items-center justify-center ring-1 ring-indigo-500/40">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-indigo-400"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm3.707 8.293-4 4a1 1 0 0 1-1.414 0l-2-2 1.414-1.414L11 11.586l3.293-3.293Z"/></svg>
+      </div>
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">TradingView Premium — Ưu đãi từ đối tác</h1>
+        <p class="text-slate-300">Giá : <span class="font-semibold">119k / tháng · 299k / 3 tháng · 1.099k / năm</span></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / CTA -->
+  <section class="max-w-6xl mx-auto px-4">
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="p-6 rounded-2xl bg-white/5 glass ring-1 ring-white/10">
+        <h2 class="text-xl font-bold mb-2">Tổng quan giá</h2>
+        <div class="grid sm:grid-cols-3 gap-4">
+          <!-- Monthly Card -->
+          <div class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-4 flex flex-col">
+            <h3 class="font-semibold text-slate-200 mb-1">1 tháng</h3>
+            <div class="text-3xl font-extrabold"><span id="p-month"></span> <span class="text-base font-semibold text-slate-300">/tháng</span></div>
+            <p class="text-xs text-slate-400 mt-1">Thanh toán linh hoạt, kích hoạt nhanh.</p>
+            <!-- CTA linked to Zalo -->
+            <a href="https://zalo.me/0564313288" target="_blank" rel="noopener noreferrer"
+               class="mt-4 inline-flex justify-center items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 transition px-4 py-2 text-sm font-semibold">
+              Mua ngay
+            </a>
+          </div>
+          <!-- 3 Months Card -->
+          <div class="rounded-2xl bg-white/5 ring-1 ring-amber-400/30 p-4 flex flex-col relative">
+            <span class="absolute -top-2 right-3 text-[10px] uppercase tracking-wide bg-amber-400 text-black px-2 py-1 rounded-md font-bold">Tiết kiệm</span>
+            <h3 class="font-semibold text-slate-200 mb-1">3 tháng</h3>
+            <div class="text-3xl font-extrabold"><span id="p-q"></span> <span class="text-base font-semibold text-slate-300">/3 tháng</span></div>
+            <p class="text-xs text-slate-400 mt-1">Hiệu quả: <span id="q-per-month" class="font-semibold text-slate-200"></span>/tháng</p>
+            <!-- CTA linked to Zalo -->
+            <a href="https://zalo.me/0564313288" target="_blank" rel="noopener noreferrer"
+               class="mt-4 inline-flex justify-center items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 transition px-4 py-2 text-sm font-semibold">
+              Mua 3 tháng
+            </a>
+          </div>
+          <!-- Yearly Card -->
+          <div class="rounded-2xl bg-white/5 ring-1 ring-green-400/30 p-4 flex flex-col">
+            <h3 class="font-semibold text-slate-200 mb-1">12 tháng</h3>
+            <div class="text-3xl font-extrabold"><span id="p-y"></span> <span class="text-base font-semibold text-slate-300">/năm</span></div>
+            <p class="text-xs text-slate-400 mt-1">Hiệu quả: <span id="y-per-month" class="font-semibold text-slate-200"></span>/tháng</p>
+            <!-- CTA linked to Zalo -->
+            <a href="https://zalo.me/0564313288" target="_blank" rel="noopener noreferrer"
+               class="mt-4 inline-flex justify-center items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 transition px-4 py-2 text-sm font-semibold">
+              Mua 12 tháng
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparator -->
+      <div class="p-6 rounded-2xl bg-white/5 glass ring-1 ring-white/10">
+        <h2 class="text-xl font-bold mb-2">So sánh với giá mua trực tiếp</h2>
+        <p class="text-slate-300">Giá tham khảo trên web TradingView: <span class="font-semibold">$<span id="tv-usd">67.95</span> / tháng</span></p>
+
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <label class="text-sm">Tỉ giá USD/VND
+            <input id="fx" type="number" step="100" value="26000" class="mt-1 w-full bg-transparent border border-white/20 rounded-lg px-3 py-2"/>
+          </label>
+          <label class="text-sm">Giá trực tiếp ($/tháng)
+            <input id="webPrice" type="number" step="0.01" value="67.95" class="mt-1 w-full bg-transparent border border-white/20 rounded-lg px-3 py-2"/>
+          </label>
+        </div>
+        <div class="mt-4 p-4 rounded-xl bg-black/30 ring-1 ring-white/10 grid sm:grid-cols-3 gap-3 text-sm">
+          <div>
+            <div class="text-slate-400">Giá trực tiếp quy đổi</div>
+            <div id="direct-vnd" class="text-lg font-bold"></div>
+          </div>
+          <div>
+            <div class="text-slate-400">Tiết kiệm vs trực tiếp* (gói tháng)</div>
+            <div id="save-m" class="text-lg font-bold text-emerald-400"></div>
+          </div>
+          <div>
+            <div class="text-slate-400">Tiết kiệm vs trực tiếp* (theo tháng, gói năm)</div>
+            <div id="save-y" class="text-lg font-bold text-emerald-400"></div>
+          </div>
+        </div>
+        <p class="text-[12px] text-slate-400 mt-2">*Ước tính, tuỳ thuộc tỉ giá và chương trình khuyến mại tại thời điểm mua trực tiếp trên website TradingView.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="max-w-6xl mx-auto px-4 mt-10">
+    <div class="p-6 rounded-2xl bg-white/5 glass ring-1 ring-white/10">
+      <h2 class="text-xl font-bold mb-4">Tính năng TradingView Premium <span class="text-slate-400 text-sm font-normal"></span></h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm" id="features">
+        <!-- Filled by JS below for easy editing -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer / Legal -->
+  <footer class="max-w-6xl mx-auto px-4 py-10 text-xs text-slate-400">
+    <p>Giá VNĐ: 119k/tháng · 299k/3 tháng · 1.099k/năm. Giá trực tiếp tham khảo: $67.95/tháng. © 2025 J.A.R.V.I.S Trading — Sản phẩm hỗ trợ quyết định giao dịch; không phải là lời khuyên đầu tư. Hiệu quả thị trường có rủi ro.</p>
+  </footer>
+
+  <script>
+    // ===== Config (bạn có thể chỉnh ở đây) =====
+    const PRICE = {
+      month: 139_000,
+      quarter: 299_000, // 3 months total
+      year: 1_099_000
+    };
+
+    // Feature list (lấy từ ảnh bạn gửi; có thể chỉnh sửa nội dung cho khớp mô tả chính thức)
+    const FEATURES = [
+      "8 biểu đồ trên mỗi tab",
+      "25 chỉ báo trong mỗi biểu đồ",
+      "50 kết nối biểu đồ đồng thời",
+      "400 cảnh báo giá",
+      "400 cảnh báo kỹ thuật",
+      "2 cảnh báo của danh sách theo dõi",
+      "Không có quảng cáo",
+      "Hồ sơ Khối lượng giao dịch (Volume Profile)",
+      "Khung thời gian tuỳ chỉnh",
+      "Tùy chỉnh thanh phạm vi",
+      "Nhiều danh sách theo dõi",
+      "Thanh phát lại (Bar Replay)",
+      "Chỉ báo trên chỉ báo",
+      "Trích xuất dữ liệu biểu đồ",
+      "Biểu đồ Renko trong ngày, Kagi, Đường gãy, Điểm & Dữ liệu",
+      "Biểu đồ dựa trên công thức tuỳ biến",
+      "Cơ hội Giá theo Thời gian",
+      "Dấu chân khối lượng",
+      "Nến khối lượng",
+      "Mô hình Biểu đồ Tự động",
+      "Cảnh báo không bị hết hạn",
+      "Xuất bản tập lệnh mời riêng (Invite-only script)",
+      "Khoảng thời gian tính theo giây"
+    ];
+
+    // ===== Helpers =====
+    const fVND = n => n.toLocaleString('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 });
+    const fK = n => Math.round(n/1000) + 'k';
+    const byId = id => document.getElementById(id);
+
+    function renderPrices(){
+      byId('p-month').textContent = fVND(PRICE.month) + ` (${fK(PRICE.month)})`;
+      byId('p-q').textContent = fVND(PRICE.quarter) + ` (${fK(PRICE.quarter)})`;
+      byId('p-y').textContent = fVND(PRICE.year) + ` (${fK(PRICE.year)})`;
+
+      const qpm = PRICE.quarter/3; const ypm = PRICE.year/12;
+      byId('q-per-month').textContent = fVND(qpm) + ` (${fK(qpm)})`;
+      byId('y-per-month').textContent = fVND(ypm) + ` (${fK(ypm)})`;
+    }
+
+    function renderComparison(){
+      const fx = Number(byId('fx').value || 26000);
+      const usd = Number(byId('webPrice').value || 67.95);
+      const directVND = fx * usd; // price per month in VND
+      byId('direct-vnd').textContent = fVND(directVND);
+
+      const savePct = p => {
+        const s = 1 - (p / directVND);
+        return (s*100).toFixed(1) + '%';
+      }
+      byId('save-m').textContent = savePct(PRICE.month);
+      byId('save-y').textContent = savePct(PRICE.year/12);
+    }
+
+    function renderFeatures(){
+      const ul = byId('features');
+      ul.innerHTML = '';
+      FEATURES.forEach(text => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2 p-2 rounded-lg bg-white/5 ring-1 ring-white/10';
+        li.innerHTML = `
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='w-5 h-5 text-emerald-400 flex-none mt-0.5'>
+            <path d='M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm3.707 8.293-4 4a1 1 0 0 1-1.414 0l-2-2 1.414-1.414L11 11.586l3.293-3.293Z'/>
+          </svg>
+          <span>${text}</span>`;
+        ul.appendChild(li);
+      });
+    }
+
+    // Init
+    renderPrices();
+    renderComparison();
+    renderFeatures();
+
+    // Bind events
+    byId('fx').addEventListener('input', renderComparison);
+    byId('webPrice').addEventListener('input', renderComparison);
+  </script>
+</body>
+</html>
