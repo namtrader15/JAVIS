@@ -71,6 +71,14 @@
   <header>
     <div class="container flex items-center justify-between" style="padding:12px 16px">
       <div class="flex items-center gap-12">
+        <!-- === New top buttons: TikTok / GitHub / Share Free === -->
+        <div class="flex items-center gap-8">
+          <!-- Thay link TikTok/GitHub thật vào href -->
+          <a class="btn" href="https://www.tiktok.com/@aiforexfutures" target="_blank" rel="noreferrer">TikTok</a>
+          <a class="btn" href="https://github.com/namtrader15" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="share_free.html" rel="noreferrer">Free Tools </a>
+        </div>
+
         <div class="flex items-center gap-8">
           <div style="width:36px;height:36px;border-radius:12px;background:#000;color:#fff;display:grid;place-items:center;font-weight:700">J</div>
           <div>
@@ -89,16 +97,19 @@
         </nav>
       </div>
       <div class="flex items-center gap-12">
-        <!-- Social links -->
+        <!-- Social links: thay link thật vào href -->
         <div class="flex items-center gap-8">
-          <a class="btn" id="zaloBtn" href="https://zalo.me/0564313288" rel="noopener" data-phone="0564313288">Zalo</a>
-          <a class="btn" id="tgBtn" href="https://t.me/namtrader15" rel="noopener" data-tg-phone="namtrader15" data-tg-username="">Telegram</a>
+          <a class="btn" href="https://zalo.me/0564313288" target="\_blank" rel="noreferrer">Zalo</a>
+          <a class="btn" id="tgBtn" href="https://t.me/0564313288" rel="noopener noreferrer" data-tg-phone="0564313288" data-tg-username="">Telegram</a>
           <a class="btn" href="https://www.facebook.com/nam.acoustic.33" target="\_blank" rel="noreferrer">Facebook</a>
         </div>
         <a class="btn btn-primary pulse" 
-           href="https://3c725127e101.ngrok-free.app" 
-           target="_blank" 
-           rel="noopener noreferrer">Dùng Javis bản Free</a>
+   href="thong_bao.html" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  Dùng Javis bản Free
+</a>
+
       </div>
     </div>
   </header>
@@ -116,6 +127,7 @@
       </div>
       <div class="card">
         <div class="aspect-video">
+          <!-- Thay thumbnail hoặc để trống -->
           <iframe src="https://www.youtube.com/embed/GBK3eQP_E3A?si=EzvPKglqzVbS3p_H" title="Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <p class="muted" style="margin-top:8px">* Giới Thiệu JAVIS: Trợ Lý Giao Dịch Bán Tự Động & BOT BTC Auto 100%</p>
@@ -348,4 +360,70 @@
   <!-- ===== Author ===== -->
   <section id="author" class="section">
     <div class="container card">
-      <p class="muted" style="margin:0">Mình học IT chuyên ngành software, ứng dụng AI và công nghệ vào giao dịch; không nhận làm đối tác backcom; không nhận làm
+      <p class="muted" style="margin:0">Mình học IT chuyên ngành software, ứng dụng AI và công nghệ vào giao dịch; không nhận làm đối tác backcom; không nhận làm KOL/KOC nhóm tín hiệu.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">© <span id="y"></span> Javis. All rights reserved.</div>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+
+<script>
+  (function () {
+    const btn = document.getElementById('tgBtn');
+    if (!btn) return;
+
+    // Read configuration from data attributes (set on the <a> tag)
+    const tgUsername = (btn.dataset.tgUsername || '').trim();   // e.g. 'your_username'
+    const phoneRaw   = (btn.dataset.tgPhone || '').trim();      // e.g. '0564313288' (VN local)
+
+    // Convert local VN number to E.164 if needed
+    function toE164(v) {
+      if (!v) return '';
+      let p = v.replace(/\D+/g, '');
+      if (!p) return '';
+      if (p.startsWith('0')) return '+84' + p.slice(1);   // VN: 0xxxxxxxxx -> +84xxxxxxxxx
+      if (p.startsWith('84')) return '+' + p;
+      if (v.startsWith('+')) return v;
+      return '+' + p;
+    }
+
+    const phoneE164 = toE164(phoneRaw);
+    const hasUsername = !!tgUsername;
+    const hasPhone = !!phoneE164;
+
+    // Build links
+    const webLink = hasUsername
+      ? ('https://t.me/' + encodeURIComponent(tgUsername))
+      : (hasPhone ? ('https://t.me/' + encodeURIComponent(phoneE164.replace(/^\+/, ''))) : 'https://t.me/');
+
+    const appLink = hasUsername
+      ? ('tg://resolve?domain=' + encodeURIComponent(tgUsername))
+      : (hasPhone ? ('tg://resolve?phone=' + encodeURIComponent(phoneE164)) : 'tg://');
+
+    // Detect mobile (simple but effective for this case)
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    // Ensure normal behavior (webLink) for non-mobile or when JS disabled
+    btn.setAttribute('href', webLink);
+
+    // On mobile: try opening Telegram app via deep link; fallback to web
+    btn.addEventListener('click', function (e) {
+      if (!isMobile) return;     // Desktop: keep default behavior
+      e.preventDefault();
+
+      // Attempt to open the app
+      window.location.href = appLink;
+
+      // Fallback after ~1.2s if app is not installed / deep link fails
+      setTimeout(function () {
+        // If the app didn't catch the deep link, navigate to web
+        window.location.href = webLink;
+      }, 1200);
+    }, { passive: false });
+  })();
+</script>
+
+</body>
+</html>
