@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Namtrader Trading Tools – Share</title>
+  <meta name="description" content="Trang chia sẻ tool trading phiên bản đơn giản: chỉ link tải cho Windows và 5 mục được yêu cầu. Riêng Javis mini mở qua Zalo."/>
+  <style>
+    :root{--bg:#0b1016;--text:#e8eef6;--muted:#a8b1bf;--card:#101826;--border:#172133;--accent:#4da3ff;--radius:14px}
+    [data-theme="light"]{--bg:#f6f8fb;--text:#0f172a;--muted:#4a5568;--card:#ffffff;--border:#e6eaf2;--accent:#2563eb}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .container{max-width:900px;margin:0 auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    h1{font-size:22px;margin:0}
+    .muted{color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+    .card{border:1px solid var(--border);background:var(--card);border-radius:var(--radius);padding:14px}
+    .name{font-weight:700;font-size:16px;margin-bottom:6px}
+    .desc{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:10px;min-height:2.6em}
+    .btn{display:block;width:100%;text-align:center;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,color-mix(in oklab, var(--accent) 18%, transparent), transparent);color:var(--text);text-decoration:none}
+    .btn.disabled,[aria-disabled="true"]{opacity:.4;pointer-events:none}
+    .topbar{display:flex;gap:8px;align-items:center}
+    .topbar button{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:10px;padding:8px 10px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>NamTrader Trading Tools – Share</h1>
+      </div>
+      <div class="topbar">
+        <button id="themeBtn" aria-label="Đổi giao diện">🌓</button>
+      </div>
+    </header>
+
+    <div class="grid" id="grid"></div>
+
+  </div>
+
+  <!-- DỮ LIỆU: CHỈ WINDOWS (href trực tiếp); Javis mini ưu tiên mở Zalo -->
+  <script>
+    const TOOLS = [
+      { id: "metatrader5", name: "MetaTrader 5", description: "Nền tảng giao dịch/EA phổ biến cho Forex & CFD.", updated: "2025-09-20", links: { windows: "https://www.metatrader5.com/en/download" } },
+      { id: "risk-calc", name: "Risk Calculator", description: "Tính khối lượng lệnh, R:R, % rủi ro tài khoản ", updated: "2025-06-10", links: { windows: "ADD_LINK_HERE" } },
+      { id: "binance-dataset", name: "Binance Get Dataset", description: "Tải dữ liệu lịch sử (kline/trades) từ hệ sinh thái Binance.", updated: "2025-10-03", links: { windows: "https://drive.google.com/file/d/1v-esaeek6L2JyAfcGTAnnjBKvxHshXCl/view?usp=sharing" } },
+      { id: "forex-dataset", name: "Forex Get Dataset", description: "Thu thập dữ liệu Forex lịch sử phục vụ nghiên cứu/backtest.", updated: "2025-10-03", links: { windows: "ADD_LINK_HERE" } },
+      { id: "javis-mini", name: "Javis mini – Free Trial 30d", description: "Phiên bản dùng thử 30 ngày cho Javis mini", updated: "2025-10-03", links: { zalo: "https://zalo.me/0564313288" } }
+    ];
+
+    function fmtDate(s){
+      if(!s) return ''; const d=new Date(s); if(Number.isNaN(d)) return ''; return d.toLocaleDateString('vi-VN',{year:'numeric',month:'short',day:'2-digit'});
+    }
+
+    // Cố gắng mở ứng dụng Zalo nếu người dùng đặt links.zalo là scheme zalo:// ;
+    // nếu không thành công, fallback sang liên kết web (zalo.me) hoặc chính links.zalo nếu là http.
+    function openZaloLink(raw){
+      try{
+        if(!raw) return;
+        const isScheme = typeof raw === 'string' && raw.startsWith('zalo://');
+        const fallback = 'https://zalo.me/';
+        if(!isScheme){
+          // Nếu là http(s) thì mở thẳng (nhiều trường hợp cũng tự mở app)
+          window.location.href = raw; return;
+        }
+        // Thử mở scheme
+        const start = Date.now();
+        window.location.href = raw;
+        // Sau ~1s nếu chưa chuyển app thì fallback sang web
+        setTimeout(()=>{ if(Date.now()-start < 1200) window.location.href = fallback; }, 900);
+      }catch(e){ window.location.href = 'https://zalo.me/'; }
+    }
+
+    function render(){
+      const grid=document.getElementById('grid');
+      grid.innerHTML = TOOLS.map(t=>{
+        const preferZalo = !!(t.links && t.links.zalo);
+        let buttonHtml = '';
+        if(preferZalo){
+          buttonHtml = `<a class=\"btn\" href=\"#\" onclick=\"openZaloLink('${(t.links.zalo||'').replace(/"/g,'&quot;')}');return false;\">💬 Download </a>`;
+        } else {
+          const hasLink = !!(t.links?.windows && t.links.windows.trim());
+          buttonHtml = hasLink
+            ? `<a class=\"btn\" href=\"${t.links.windows}\" target=\"_blank\" rel=\"noopener\">⬇️ Tải Windows</a>`
+            : `<a class=\"btn disabled\" href=\"#\" aria-disabled=\"true\">⬇️ Tải Windows</a>`;
+        }
+        return `
+          <div class=\"card\" id=\"tool-${t.id}\">
+            <div class=\"name\">${t.name}</div>
+            <div class=\"desc\">${t.description||''}</div>
+            ${buttonHtml}
+            <div class=\"muted\" style=\"margin-top:8px\">Cập nhật: ${fmtDate(t.updated)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('themeBtn').addEventListener('click', ()=>{
+      const isLight=document.documentElement.getAttribute('data-theme')==='light';
+      if(isLight) document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme','light');
+    });
+
+    document.addEventListener('DOMContentLoaded', render);
+  </script>
+</body>
+</html>
