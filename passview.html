@@ -96,6 +96,10 @@
     .filters:has(#filter-all:checked) ~ .cards [data-account] { display: block; }
     .filters:has(#filter-5k:checked) ~ .cards [data-account="5k Funded"] { display: block; }
     .filters:has(#filter-10k:checked) ~ .cards [data-account="10k Funded"] { display: block; }
+
+    /* Hiển thị chỉ thẻ Binance 7/2025 khi chọn nút tương ứng */
+    .filters:has(#filter-binance-2025-07:checked) ~ .cards [data-account="Binance"] { display: block; }
+
    
 
     /* ======= Footer / Disclaimer ======= */
@@ -206,6 +210,18 @@
       <h1 class="title">Lịch sử giao dịch <span class="grad">Funding Fund</span> — The5er </h1>
       <p class="sub">Tất cả lịch sử giao dịch được đảm bảo lấy từ tài khoản tiền thật, nói không với passview demo, backtest</p>
     </section>
+    <!-- ===== Thông báo cập nhật hoạt động (08–09/2025) ===== -->
+    <div class="badge" style="margin: 12px 0 20px; border-radius:12px;">
+      <strong>Cập nhật hoạt động (08–09/2025)</strong>
+      <div style="color:var(--muted); font-size:13px; margin-top:6px;">
+        Tháng 8,9/2025 trở đi, có các khách hàng khác thuê JAVIS BTC để đánh các quỹ,
+        vì vậy mình không dùng nó để đánh quỹ nữa
+        <span style="opacity:.9;">(lý do: quỹ ban các tài khoản trùng lệnh)</span>.
+        Ở tài khoản cá nhân mình kết hợp với trade altcoin nên không có passview.
+        Mình sẽ cố gắng cập nhật các passview mới sớm nhất có thể!
+      </div>
+    </div>
+
 
     <!--
       HƯỚNG DẪN THÊM ẢNH:
@@ -229,10 +245,26 @@
 
       <input type="radio" name="acct" id="filter-10k">
       <label for="filter-10k">10.000$ Funded Account</label>
+      
+      <input type="radio" name="acct" id="filter-binance-2025-07">
+      <label for="filter-binance-2025-07">Binance 7/2025</label>
+
     </div>
 
     <!-- Thư viện ảnh -->
     <section class="cards">
+      <!-- Binance — Passview Tháng 7/2025 -->
+      <article class="card" data-account="Binance">
+        <a href="#acc-Binance-T7-1">
+          <img class="thumb" src="img/Binance_T7/Binance_T7.jpg" alt="Binance — Passview Tháng 7/2025" loading="lazy" decoding="async" />
+        </a>
+        <div class="meta">
+          <div class="row"><span class="tag">Binance</span><span class="date">Jul 2025</span></div>
+          <div class="caption">Binance • Passview Tháng 7/2025</div>
+          <div class="small">Nguồn: Binance_T7</div>
+        </div>
+      </article>
+
       <!-- 24407647 — 5k Funded (4 ảnh) -->
       <article class="card" data-account="5k Funded">
         <a href="#acc-24407647-1">
@@ -431,6 +463,14 @@
     </section>
 
     <!-- Lightbox items (mỗi ảnh một target) -->
+    <!-- Binance — Lightbox -->
+    <div class="lightbox" id="acc-Binance-T7-1">
+      <a class="close" href="#gallery">×</a>
+      <div class="inner">
+        <img src="img/Binance_T7/Binance_T7.jpg" alt="Binance — Passview Tháng 7/2025">
+      </div>
+    </div>
+
     <div class="lightbox" id="acc-24407647-1"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/1.png" alt="Account 24407647 — 5k Funded — Ảnh 1"></div></div>
     <div class="lightbox" id="acc-24407647-2"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/2.png" alt="Account 24407647 — 5k Funded — Ảnh 2"></div></div>
     <div class="lightbox" id="acc-24407647-3"><a class="close" href="#gallery">×</a><div class="inner"><img src="img/24407647-5k%20Funded/3.png" alt="Account 24407647 — 5k Funded — Ảnh 3"></div></div>
