@@ -196,6 +196,36 @@
       background: rgba(255,255,255,.12);
     }
     
+  
+
+    /* ======= Intro video (YouTube embed) ======= */
+    .grad {
+      background: linear-gradient(92deg, #9ad8ff 0%, #22d3ee 45%, #b3b8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .video-wrap { margin: 10px 0 18px; }
+    .video-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .video-head { padding: 14px 16px 10px; display: grid; gap: 6px; }
+    .video-title { font-weight: 900; font-size: 18px; letter-spacing: .2px; }
+    .video-sub { color: var(--muted); font-size: 13.5px; }
+    .video-frame { position: relative; width: 100%; padding-top: 56.25%; background: #0c1328; }
+    .video-frame iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    @media (max-width: 480px) {
+      .video-title { font-size: 16px; }
+    }
+
   </style>
 </head>
 <body>
@@ -213,6 +243,20 @@
       <h1 class="title">Lịch sử giao dịch <span class="grad">Funding Fund</span> — The5er </h1>
       <p class="sub">Tất cả lịch sử giao dịch được đảm bảo lấy từ tài khoản tiền thật, nói không với passview demo, backtest</p>
     </section>
+
+    <!-- ===== Intro video: JAVIS BTC AI (YouTube) ===== -->
+    <section class="video-wrap" aria-label="Video giới thiệu JAVIS BTC AI">
+      <div class="video-card">
+        <div class="video-head">
+          <div class="video-title">Video giới thiệu <span class="grad">JAVIS BTC AI</span></div>
+        </div>
+        <div class="video-frame">
+          <!-- Đổi VIDEO_ID thành ID video của bạn (hoặc thay cả src bằng link /embed/...) -->
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/U9faUimGzTM?si=RPpRZ6Jz9Ez9vJex" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== Thông báo cập nhật hoạt động (08–09/2025) ===== -->
     <div class="badge" style="margin: 12px 0 20px; border-radius:12px;">
       <strong>Cập nhật hoạt động (08–09/2025)</strong>
