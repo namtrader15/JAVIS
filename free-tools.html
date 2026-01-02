@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Tools | Javis</title>
+  <meta name="description" content="Bộ công cụ miễn phí: BTC Probability Tech và tool tải dataset (Coin/Forex) dạng CSV." />
+  <style>
+/* ====== Javis Simple Theme (no build, pure CSS) ====== */
+    :root{
+      --blue:#2563eb; /* brand */
+      --text:#0f172a; /* slate-900 */
+      --muted:#64748b; /* slate-500 */
+      --bg1:#ffffff; --bg2:#f8fafc; /* gradient */
+      --border:#e5e7eb;
+      --radius:16px;
+    }
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,sans-serif;color:var(--text);background:linear-gradient(var(--bg1),var(--bg2))}
+    .container{max-width:1120px;margin:0 auto;padding:0 16px}
+    .flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}
+    .section{padding:48px 0}
+    .muted{color:var(--muted)}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 4px 12px rgba(15,23,42,.06)}
+    .badge{display:inline-block;background:#eef2ff;color:#1e40af;border-radius:999px;padding:4px 10px;font-size:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:14px;padding:10px 14px;text-decoration:none;font-weight:600}
+    .btn:hover{background:#f8fafc}
+    .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn-primary:hover{filter:brightness(0.95)}
+    @keyframes cta-pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.4)}50%{box-shadow:0 0 0 12px rgba(37,99,235,0)}}
+    .pulse{animation:cta-pulse 2.2s infinite}
+    .grid{display:grid;gap:16px}
+    .grid-2{grid-template-columns:1fr}
+    .grid-3{grid-template-columns:1fr}
+    @media(min-width:768px){.grid-2{grid-template-columns:repeat(2,1fr)} .grid-3{grid-template-columns:repeat(3,1fr)}}
+    .hero-title{font-size:28px;font-weight:800;line-height:1.1}
+    @media(min-width:768px){.hero-title{font-size:42px}}
+    .aspect-video{position:relative;width:100%;padding-bottom:56.25%;background:#f1f5f9;border-radius:12px;overflow:hidden}
+    .aspect-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px}
+    .price .amount{font-size:28px;font-weight:800}
+    .price .period{color:var(--muted);font-weight:500}
+    .price.hot{outline:2px solid rgba(37,99,235,.35);border-color:var(--blue)}
+    header{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border);z-index:50}
+    .footer{border-top:1px solid var(--border);padding:24px 0;color:var(--muted);font-size:14px}
+    ul.clean{padding-left:18px;margin:8px 0}
+  
+    /* ====== Mobile enhancements & accessibility ====== */
+    .btn{min-height:44px} /* better tap target */
+    iframe, video {max-width:100%; height:auto}
+    img{max-width:100%; height:auto}
+    @media (max-width: 640px){
+      .container{padding:0 12px}
+      .section{padding:32px 0}
+      .hero-title{font-size:24px}
+      .card{padding:16px}
+      .price .amount{font-size:24px}
+      .btn{width:100%}
+      /* stack flex rows to columns on small screens */
+      .flex.items-center.justify-between{flex-direction:column; align-items:flex-start; gap:12px}
+      header .container{flex-wrap:wrap; gap:8px}
+    }
+
+    /* ====== TradingView section emphasis (bigger) ====== */
+    #tradingview .card{padding:32px; border-width:2px}
+    #tradingview p{font-size:18px; font-weight:600}
+    #tradingview .btn{padding:12px 18px; font-size:16px}
+
+    /* ====== Page-specific tweaks ====== */
+    .topbar{position:sticky;top:0;z-index:10;background:rgba(7,12,27,.7);backdrop-filter: blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .brand-badge{font-size:12px;padding:6px 10px;border-radius:999px;background:#0b1228;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85)}
+    .grid{display:grid;gap:16px}
+    @media (min-width: 900px){.grid{grid-template-columns:1fr 1fr}}
+    .card h3{margin:0 0 6px 0}
+    .muted{color:rgba(255,255,255,.72)}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:12px}
+    .list{margin:10px 0 0 18px}
+    .list li{margin:6px 0}
+    details{border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px 14px;background:rgba(255,255,255,.04)}
+    summary{cursor:pointer;font-weight:700}
+    .footer-note{opacity:.75;font-size:13px;line-height:1.5}
+    .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);padding:2px 6px;border-radius:8px}
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">JAVIS</span>
+        <span>Free Tools</span>
+      </div>
+
+      <div class="flex items-center gap-8">
+        <a class="btn" href="./index.html">Trang chủ</a>
+        <a class="btn" href="https://t.me/namtrader15" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn" href="https://zalo.me/0564313288" target="_blank" rel="noopener noreferrer">Zalo</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container" style="padding:26px 0 40px">
+    <section class="card" style="margin-top:18px">
+      <h1 style="margin:0 0 8px 0">Bộ công cụ miễn phí</h1>
+      <p class="muted" style="margin:0">
+        Ở đây gom những tool “xài được liền”. Không cần màu mè, chỉ cần ra dữ liệu và ra kết quả.
+      </p>
+      <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px">
+        <span class="pill">📌 BTC | Mid-term</span>
+        <span class="pill">📈 Coin (Binance) | OHLCV</span>
+        <span class="pill">💹 Forex (MT5) | OHLCV</span>
+        <span class="pill">⬇️ Export CSV</span>
+      </div>
+    </section>
+
+    <section class="grid" style="margin-top:16px">
+      <!-- Tool 1 -->
+      <article class="card">
+        <h3>BTC Probability Tech</h3>
+        <p class="muted" style="margin:0">
+          Dashboard xác suất chạm các mức giá (Upper/Middle/Lower) theo horizon. Dành cho người thích nhìn xác suất hơn là “cảm giác thị trường”.
+        </p>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://namtrader15.github.io/BTC-Probability-Tech/" target="_blank" rel="noopener noreferrer">
+            Mở tool
+          </a>
+        </div>
+
+        <div style="margin-top:14px">
+          <details>
+            <summary>Xài nhanh</summary>
+            <ul class="list">
+            <li>Chọn <b>Symbol</b> (ví dụ <span class="kbd">BTCUSDT</span>) và <b>Interval</b> (ví dụ <span class="kbd">1w</span>).</li>
+            <li>Nhập <b>Horizon N</b> (T = N tuần/tháng tuỳ interval).</li>
+            <li>Chọn <b>Levels mode</b> để lấy Upper/Lower (thường dùng <span class="kbd">Auto: High/Low gần N</span>).</li>
+            <li>Chọn <b>N (bars) lấy High/Low</b> (ví dụ 20) để tool xác định vùng giá gần đây.</li>
+            <li>Tuỳ chọn <b>Middle mode</b> (midpoint hoặc SMA/Manual) nếu bạn muốn chỉnh “điểm giữa”.</li>
+            <li>Bật/tắt <b>Live cập nhật</b> nếu muốn tool tự refresh.</li>
+            <li>Bấm <b>Lấy dữ liệu ngay</b> để tính xác suất (P hit Upper/Middle/Lower).</li>
+</ul>
+          </details>
+        </div>
+      </article>
+
+      <!-- Tool 2 -->
+      <article class="card">
+        <h3>Dataset Exporter (CSV)</h3>
+        <p class="muted" style="margin:0">
+          Tải dữ liệu nến (OHLCV) cho <b>Coin</b> hoặc <b>Forex</b> theo timeframe, rồi tải xuống dạng <b>.csv</b>.
+        </p>
+
+        <div class="btn-row">
+          <!-- NOTE: change this href to your actual Javis Free URL -->
+          <a class="btn btn-primary" href="https://7dd0e84366df.ngrok-free.app/login">Vào Javis Quantum</a>
+          <a class="btn" href="#huongdan">Hướng dẫn lấy dataset</a>
+        </div>
+
+        <div style="margin-top:14px">
+          <details>
+            <summary>Cách lấy dữ liệu (dataset) trên web</summary>
+            <ul class="list">
+              <li>Bấm <b>Vào Javis Quantum</b> và đăng nhập.</li>
+              <li>Nếu bạn không có tài khoản, thì đăng nhập tài khoản miễn phí là vào được</li>
+              <li>Tìm nút <b>Tải dataset</b> trong giao diện.</li>
+              <li>Chọn <b>loại tài sản</b> muốn lấy dữ liệu: <b>Coin (Binance)</b> hoặc <b>Forex (MT5)</b>.</li>
+              <li>Chọn <b>Symbol</b> + <b>Timeframe</b> + khoảng dữ liệu, rồi bấm <b>Download</b> để tải file <b>.csv</b>.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+    </section>
+
+    <section id="huongdan" class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 8px 0">Hướng dẫn lấy dataset</h2>
+      <ol class="list" style="margin-left:20px">
+        <li>Bấm <b>Vào Javis Quantum</b>.</li>
+        <li>Đăng nhập vào hệ thống.</li>
+        <li>Tìm nút <b>Tải dataset</b> trong giao diện.</li>
+        <li>Chọn <b>loại tài sản</b> muốn lấy dữ liệu: <b>Coin (Binance)</b> hoặc <b>Forex (MT5)</b>.</li>
+        <li>Chọn:
+          <ul class="list">
+            <li><b>Symbol:</b> ví dụ BTCUSDT, ETHUSDT hoặc XAUUSD, EURUSD…</li>
+            <li><b>Timeframe:</b> 1m/5m/15m/1h/4h/1d/1w…</li>
+            <li><b>Khoảng dữ liệu:</b> Coin thì chọn số <b>tháng</b>, Forex thì chọn số <b>nến</b></li>
+          </ul>
+        </li>
+        <li>Bấm <b>Download</b> để tải file <b>.csv</b> về máy.</li>
+      </ol>
+
+      <p class="footer-note" style="margin-top:12px">
+        Ghi chú: Dữ liệu được lấy trực tiếp từ hệ thống Javis Quantum.</p>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 8px 0">Disclaimer (cho đỡ rắc rối)</h2>
+      <p class="footer-note" style="margin:0">
+        Các tool này phục vụ mục đích học tập/phân tích dữ liệu. Không phải lời khuyên đầu tư.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
